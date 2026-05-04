@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Vite / tool caches
+.vite/
+.cache/
+.temp/
+.tmp/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+!.env.local.example
+
+# TypeScript / test output
+*.tsbuildinfo
+coverage/
+.nyc_output/
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# Local certificates and secrets
+*.pem
+*.key
+*.crt
+
+# Package manager local state
+.pnpm-store/
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions

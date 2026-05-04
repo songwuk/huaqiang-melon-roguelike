@@ -1,0 +1,10 @@
+{
+  "_note": "Optional Chinese original voice manifest. Add legally licensed local audio files in this folder and map triggers here.",
+  "_example": {
+    "spawn": { "src": "/assets/audio/zh/spawn.mp3", "volume": 0.95 },
+    "critical_hit": { "src": "/assets/audio/zh/critical_hit.mp3", "volume": 0.95 },
+    "boss_kill": { "src": "/assets/audio/zh/boss_kill.mp3", "volume": 0.95 },
+    "ultimate_ready": { "src": "/assets/audio/zh/ultimate_ready.mp3", "volume": 0.95 },
+    "zhengfu_theme": { "src": "/assets/audio/zh/zhengfu_theme.mp3", "volume": 0.8 }
+  }
+}
