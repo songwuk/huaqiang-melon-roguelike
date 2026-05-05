@@ -54,6 +54,7 @@ import type {
   RunObjectiveDefinition,
   RunObjectiveId,
   SignatureMomentId,
+  TribunalRewardId,
   UpgradeCard,
   UpgradeFaction,
   UpgradeId,
@@ -1728,14 +1729,36 @@ function spawnWorldEvent(forceKind?: WorldEventKind, bossGate = false) {
   }
 }
 
+function tribunalRewardForHealth(healthRatio: number): {
+  id: TribunalRewardId;
+  multiplier: number;
+  luck: number;
+  heal: number;
+  temper: number;
+  perfect: boolean;
+} {
+  const ratio = clamp(healthRatio, 0, 1);
+  if (ratio >= 0.995) {
+    return { id: 'perfect', multiplier: 1, luck: 4, heal: 18, temper: 30, perfect: true };
+  }
+  if (ratio >= 0.8) {
+    return { id: 'great', multiplier: 0.85, luck: 3, heal: 14, temper: 24, perfect: false };
+  }
+  if (ratio >= 0.5) {
+    return { id: 'pass', multiplier: 0.6, luck: 2, heal: 10, temper: 16, perfect: false };
+  }
+  return { id: 'barely', multiplier: 0.3, luck: 1, heal: 6, temper: 10, perfect: false };
+}
+
 function completeWorldEvent(event: WorldEventNode) {
   if (!event.active) {
     return;
   }
   event.active = false;
   const eventCopy = copy.value.events[event.kind];
-  const failedChallenge = event.kind === 'challengePledge' && event.failed;
-  showSubtitle(failedChallenge ? copy.value.objectiveFailed : eventCopy.complete);
+  if (event.kind !== 'challengePledge') {
+    showSubtitle(eventCopy.complete);
+  }
   if (event.kind === 'fakeScale') {
     gainExp(140 + gameState.level * 22);
     gameState.luck += 3;
@@ -1763,26 +1786,26 @@ function completeWorldEvent(event: WorldEventNode) {
     addLandmarkBadge(event.kind, 'temper');
     showSubtitle(copy.value.temporaryBurst);
     emitJuice(event.x, event.y, 0xef3340, 54);
-  } else if (failedChallenge) {
-    gainExp(65 + gameState.level * 8);
-    emitJuice(event.x, event.y, 0xa1a1aa, 24);
-    if (event.bossGate) {
-      runtime.bossGatePending = true;
-      runtime.nextEventDelay = 12;
-      showSubtitle(copy.value.bossKeyMissing);
-    }
   } else {
-    gainExp(220 + gameState.level * 28);
-    gameState.health = clamp(gameState.health + 18, 0, gameState.maxHealth);
-    gameState.luck += 4;
-    addTemper(30);
-    addLandmarkBadge(event.kind, 'rare');
-    upgradeOwnedCardFromLandmark(['fire', 'temper', dominantFaction.value ?? 'core']);
-    showSubtitle(copy.value.rareVoice);
-    void runtime.audio?.play('critical_hit', true);
-    emitJuice(event.x, event.y, 0xffe45c, 62);
-    triggerSignatureMoment('challengePerfect', 'green');
-    incrementMetaProfile('perfectChallenges');
+    const healthRatio = gameState.maxHealth > 0 ? gameState.health / gameState.maxHealth : 0;
+    const reward = tribunalRewardForHealth(healthRatio);
+    gainExp(Math.round((220 + gameState.level * 28) * reward.multiplier));
+    gameState.health = clamp(gameState.health + reward.heal, 0, gameState.maxHealth);
+    gameState.luck += reward.luck;
+    addTemper(reward.temper);
+    const badgeFaction = reward.perfect || reward.id === 'great' ? 'rare' : reward.id === 'pass' ? 'temper' : 'survival';
+    const burstColor = reward.perfect ? 0xffe45c : reward.id === 'great' ? 0xfacc15 : reward.id === 'pass' ? 0x75d64b : 0xa1a1aa;
+    const burstCount = reward.perfect ? 62 : reward.id === 'great' ? 48 : reward.id === 'pass' ? 36 : 24;
+    addLandmarkBadge(event.kind, badgeFaction);
+    showSubtitle(`${eventCopy.complete} ${copy.value.tribunalRewards[reward.id]}`);
+    emitJuice(event.x, event.y, burstColor, burstCount);
+    if (reward.perfect) {
+      upgradeOwnedCardFromLandmark(['fire', 'temper', dominantFaction.value ?? 'core']);
+      showSubtitle(copy.value.rareVoice);
+      void runtime.audio?.play('critical_hit', true);
+      triggerSignatureMoment('challengePerfect', 'green');
+      incrementMetaProfile('perfectChallenges');
+    }
     if (event.bossGate) {
       runtime.bossGatePending = false;
       runtime.bossGateCleared = true;
@@ -1791,15 +1814,13 @@ function completeWorldEvent(event: WorldEventNode) {
       void runtime.audio?.play('ultimate_ready', true);
     }
   }
-  if (!failedChallenge) {
-    runStats.eventsCompleted += 1;
-    incrementMetaProfile('eventsCompleted');
-    checkRunObjectiveCompletion();
-  }
+  runStats.eventsCompleted += 1;
+  incrementMetaProfile('eventsCompleted');
+  checkRunObjectiveCompletion();
   shake(16);
   event.sprite.destroy();
   runtime.worldEvents = runtime.worldEvents.filter((item) => item !== event);
-  runtime.nextEventDelay = event.bossGate && failedChallenge ? 12 : randomFloat(32, 46);
+  runtime.nextEventDelay = randomFloat(32, 46);
   runtime.eventClock = 0;
   if (runtime.finalBossPending && runtime.bossGateCleared && !runtime.finalBossActive && !runtime.finalBossDefeated) {
     runtime.finalBossPending = false;
@@ -2224,7 +2245,7 @@ function damagePlayer(
   for (const event of runtime.worldEvents) {
     if (event.active && event.kind === 'challengePledge' && event.started && !event.failed) {
       event.failed = true;
-      showSubtitle(copy.value.objectiveFailed);
+      showSubtitle(copy.value.objectiveRewardReduced);
       drawWorldEvent(event);
     }
   }
@@ -4047,7 +4068,7 @@ onUnmounted(() => {
       <div class="objective-chip-foot">
         <small>{{ copy.objectiveDistance }} {{ activeObjective.distance }}m</small>
         <small v-if="activeObjective.kind === 'fairWeight'">{{ copy.objectiveComplete }}</small>
-        <small v-else-if="activeObjective.failed">{{ copy.objectiveFailed }}</small>
+        <small v-else-if="activeObjective.failed">{{ copy.objectiveRewardReduced }}</small>
         <small v-else>{{ activeObjective.progress }}%</small>
       </div>
       <div class="objective-progress">

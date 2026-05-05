@@ -227,22 +227,32 @@ Landmarks are the current in-run event system. They spawn in the explorable mark
 | Scale Warehouse | Destroy the core fake scale with projectiles. | Metal enemies gather and scale-weights can block the route. | Large EXP, Magnet badge, and an upgrade to a Magnet or current-route card. |
 | Melon Stall Supply | Walk onto the glowing supply stall. | Taking supplies reveals your position and pulls enemies closer. | Healing, Luck, and a survival-tolerance badge. |
 | Market Back Alley | Enter the alley and survive the timer. | Enemies spawn from multiple angles and squeeze exits. | Large EXP, Temper, and a 12-second temporary burst. |
-| Guaranteed-Ripe Tribunal | Enter the timer zone and avoid damage. | Damage downgrades the payout; after Lv15 it becomes the final boss key. | Premium reward, rare voice, and an upgrade to an owned card. |
+| Guaranteed-Ripe Tribunal | Enter the timer zone and survive until it ends. | Damage no longer blocks boss unlock, but ending HP scales the reward down. | 100% HP grants rare voice, card upgrade, more EXP, and more Luck. |
 
 Only one landmark is active at a time. The objective chip shows title, distance, risk, reward, and completion status.
+
+Tribunal rewards are based on Huaqiang's HP percentage when the timer ends:
+
+| Ending HP | Boss Unlock | Reward |
+| --- | --- | --- |
+| 100% | Yes | Full reward: rare voice, guaranteed owned-card upgrade, max EXP, max Luck. |
+| 80%-99% | Yes | 85% reward: reduced EXP/Luck and no perfect-only rare payout. |
+| 50%-79% | Yes | 60% reward: standard clear payout. |
+| 1%-49% | Yes | 30% reward: survival payout only. |
+| Death / timer not cleared | No | No reward. |
 
 ## Boss Flow
 
 The final boss is intentionally gated so the clear has a ritual moment.
 
 1. Reach **Lv15** to trigger Conqueror Eve and the boss warning.
-2. Find and clear the **Guaranteed-Ripe Tribunal** landmark.
+2. Find and clear the **Guaranteed-Ripe Tribunal** landmark by surviving the timer.
 3. The **Rigged Scale Emperor** unlocks and enters the map.
 4. Watch the minimap and boss phase prompts.
 5. Break guard with unripe knockback, Ice, or stagger pressure.
 6. Defeat the boss to win the run.
 
-Boss phases add guard, summons, traps, magnet pressure, and burn zones. Phase toasts make transitions visible.
+No-damage is no longer required to unlock the boss. Perfect HP only controls the extra payout. Boss phases add guard, summons, traps, magnet pressure, and burn zones. Phase toasts make transitions visible.
 
 ## Enemies
 

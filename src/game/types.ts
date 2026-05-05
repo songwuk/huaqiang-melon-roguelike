@@ -22,6 +22,7 @@ export type SignatureMomentId = 'ripeStreak' | 'killSweep' | 'challengePerfect' 
 export type RunObjectiveId = 'ripeRoute' | 'troubleRoute' | 'survivalRoute';
 export type DeathAdviceId = 'contact' | 'trap' | 'boss' | 'scale' | 'default';
 export type BossPhaseId = 'phase1' | 'phase2' | 'phase3' | 'phase4';
+export type TribunalRewardId = 'perfect' | 'great' | 'pass' | 'barely';
 export type ArchetypeId = 'fire' | 'ice' | 'magnet' | 'temper';
 export type UpgradeId =
   | 'motorcycle-dash'
@@ -160,6 +161,8 @@ export interface LocaleCopy {
   objectiveDistance: string;
   objectiveComplete: string;
   objectiveFailed: string;
+  objectiveRewardReduced: string;
+  tribunalRewards: Record<TribunalRewardId, string>;
   bossGuard: string;
   bossGuardBreak: string;
   damageSources: Record<DamageSourceId, string>;

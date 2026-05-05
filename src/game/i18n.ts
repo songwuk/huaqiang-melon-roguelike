@@ -129,11 +129,17 @@ export const COPY: Record<LocaleCode, LocaleCopy> = {
     landmarkRisk: '风险目标',
     landmarkReward: '奖励',
     landmarkBadges: '地标徽章',
-    bossKeyMissing: '最终 Boss 前必须完成保熟审判台。',
+    bossKeyMissing: '完成保熟审判台即可解锁最终 Boss，结束生命越高奖励越完整。',
     bossKeyReady: '审判台通过，黑心电子秤王解锁！',
     cardUpgraded: '卡片强化',
     temporaryBurst: '临时爆发',
     rareVoice: '稀有语音触发',
+    tribunalRewards: {
+      perfect: '完美保熟：100% 奖励',
+      great: '高质量通过：85% 奖励',
+      pass: '审判通过：60% 奖励',
+      barely: '勉强通过：30% 奖励',
+    },
     bossPhaseLabel: 'Boss 阶段',
     bossPhases: {
       phase1: {
@@ -241,6 +247,7 @@ export const COPY: Record<LocaleCode, LocaleCopy> = {
     objectiveDistance: '距离',
     objectiveComplete: '完成',
     objectiveFailed: '挑战失败',
+    objectiveRewardReduced: '奖励降级',
     bossGuard: '电子秤护盘！用生瓜、冰冻或击退破防',
     bossGuardBreak: '护盘被破！',
     damageSources: {
@@ -276,9 +283,9 @@ export const COPY: Record<LocaleCode, LocaleCopy> = {
       },
       challengePledge: {
         title: '保熟审判台',
-        desc: '靠近后开始倒计时。期间不受伤即可通过审判。',
-        risk: '受伤会降级奖励；15 级后这里是最终 Boss 钥匙。',
-        reward: '高额奖励、稀有语音，并强化一张已持有卡。',
+        desc: '靠近后开始倒计时。坚持到结束即可通过审判。',
+        risk: '受伤不会阻止 Boss 解锁，但会按结束生命百分比降低奖励。',
+        reward: '100% 生命可获得稀有语音、卡片强化、更多经验和幸运。',
         complete: '审判通过！',
       },
     },
@@ -563,11 +570,17 @@ export const COPY: Record<LocaleCode, LocaleCopy> = {
     landmarkRisk: 'Risk Goal',
     landmarkReward: 'Reward',
     landmarkBadges: 'Landmark Badges',
-    bossKeyMissing: 'Clear the Guaranteed-Ripe Tribunal before the final boss can enter.',
+    bossKeyMissing: 'Clear the Guaranteed-Ripe Tribunal to unlock the final boss. Higher ending HP keeps more rewards.',
     bossKeyReady: 'Tribunal cleared. The Rigged Scale Emperor is unlocked!',
     cardUpgraded: 'Card Upgraded',
     temporaryBurst: 'Temporary Burst',
     rareVoice: 'Rare Voice Triggered',
+    tribunalRewards: {
+      perfect: 'Perfect Ripe: 100% reward',
+      great: 'Great Clear: 85% reward',
+      pass: 'Tribunal Cleared: 60% reward',
+      barely: 'Barely Alive: 30% reward',
+    },
     bossPhaseLabel: 'Boss Phase',
     bossPhases: {
       phase1: {
@@ -675,6 +688,7 @@ export const COPY: Record<LocaleCode, LocaleCopy> = {
     objectiveDistance: 'Distance',
     objectiveComplete: 'Complete',
     objectiveFailed: 'Challenge Failed',
+    objectiveRewardReduced: 'Reward Reduced',
     bossGuard: 'Scale Guard! Break it with unripe knockback, ice, or stagger.',
     bossGuardBreak: 'Guard broken!',
     damageSources: {
@@ -710,9 +724,9 @@ export const COPY: Record<LocaleCode, LocaleCopy> = {
       },
       challengePledge: {
         title: 'Guaranteed-Ripe Tribunal',
-        desc: 'Enter to start a timer. Avoid damage to pass the tribunal.',
-        risk: 'Taking damage downgrades the payout; after level 15 this is the final boss key.',
-        reward: 'Premium reward, rare voice, and an upgrade to an owned card.',
+        desc: 'Enter to start a timer. Survive until it ends to clear the tribunal.',
+        risk: 'Damage no longer blocks boss unlock, but ending HP scales the reward down.',
+        reward: '100% HP grants rare voice, card upgrade, more EXP, and more Luck.',
         complete: 'Tribunal cleared!',
       },
     },
@@ -997,11 +1011,17 @@ export const COPY: Record<LocaleCode, LocaleCopy> = {
     landmarkRisk: 'Objectif risqué',
     landmarkReward: 'Récompense',
     landmarkBadges: 'Badges de lieu',
-    bossKeyMissing: 'Terminez le tribunal mûr garanti avant le boss final.',
+    bossKeyMissing: 'Terminez le tribunal mûr garanti pour débloquer le boss final. Plus de PV à la fin garde plus de récompenses.',
     bossKeyReady: 'Tribunal réussi. L Empereur de la Balance est débloqué !',
     cardUpgraded: 'Carte renforcée',
     temporaryBurst: 'Explosion temporaire',
     rareVoice: 'Voix rare déclenchée',
+    tribunalRewards: {
+      perfect: 'Mûr parfait : 100% de récompense',
+      great: 'Très bon passage : 85% de récompense',
+      pass: 'Tribunal terminé : 60% de récompense',
+      barely: 'Survie limite : 30% de récompense',
+    },
     bossPhaseLabel: 'Phase Boss',
     bossPhases: {
       phase1: {
@@ -1109,6 +1129,7 @@ export const COPY: Record<LocaleCode, LocaleCopy> = {
     objectiveDistance: 'Distance',
     objectiveComplete: 'Terminé',
     objectiveFailed: 'Défi échoué',
+    objectiveRewardReduced: 'Récompense réduite',
     bossGuard: 'Garde de balance ! Brisez-la avec un coup vert, la glace ou un choc.',
     bossGuardBreak: 'Garde brisée !',
     damageSources: {
@@ -1144,9 +1165,9 @@ export const COPY: Record<LocaleCode, LocaleCopy> = {
       },
       challengePledge: {
         title: 'Tribunal mûr garanti',
-        desc: 'Entrez pour lancer le chrono. Évitez les dégâts pour réussir.',
-        risk: 'Les dégâts réduisent la récompense; après le niveau 15, c est la clé du boss final.',
-        reward: 'Récompense premium, voix rare et renfort d une carte possédée.',
+        desc: 'Entrez pour lancer le chrono. Survivez jusqu à la fin pour réussir.',
+        risk: 'Les dégâts ne bloquent plus le boss, mais les PV finaux réduisent la récompense.',
+        reward: '100% PV donne voix rare, carte renforcée, plus d EXP et plus de chance.',
         complete: 'Tribunal réussi !',
       },
     },
